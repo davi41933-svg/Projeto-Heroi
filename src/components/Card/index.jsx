@@ -1,6 +1,7 @@
 // Importa o badge (peça menor) que vai dentro do cartão
-import StatusBadge from "./StatusBadge";
+import StatusBadge from "../StatusBadge/index.jsx";
 import { useState } from "react";
+
 
 // Define que o cartão recebe um objeto heroi
 function Card({ heroi, excluirHeroi }) {
@@ -8,24 +9,29 @@ function Card({ heroi, excluirHeroi }) {
   const [nivel, setNivel] = useState(1); // aumentar lvl
   const [selecionado, setSelecionado] = useState(false);
   const [border, setBorder] = useState(false);
-  
+  const [mensagemNivel, setMensagemNivel] = useState("");
 
   function ganharXp() {
     setXpBlocos((xpBlocos) => {
       if (xpBlocos < 9) {
-        setXpBlocos(xpBlocos + 1);
+        return xpBlocos + 1;
       } else {
         setNivel(() => nivel + 1);
+        if (nivel >= 4) setBorder(true);
 
-        if (nivel >= 4) {
-          setBorder(true);
-        }
+        setMensagemNivel(
+          `Parabéns! ${heroi.name} subiu para o nível ${nivel}!`,
+        );
+
+        setTimeout(() => {
+          setMensagemNivel("");
+        }, 3000);
         return 0;
       }
     });
   }
 
-  // Blocos de estilo
+    // Blocos de estilo
   const cardStyle = {
     borderRadius: "12px",
     padding: "16px",
@@ -35,8 +41,8 @@ function Card({ heroi, excluirHeroi }) {
     width: "200px",
     transition: "0.3s ease all",
     transform: selecionado ? "scale(1.1)" : "scale(1)",
-    backgroundColor: selecionado ? "#cccccc" : "#ffffff",
-    border: border ? "4px solid #ce9b19" : "2px solid #cccccc",
+    backgroundColor: selecionado ? "#e0c1ff" : "#ffffff",
+    border: border ? "4px solid #ce9b19" : "3px solid #aa3fbf",
     cursor: "pointer",
   };
 
@@ -71,6 +77,19 @@ function Card({ heroi, excluirHeroi }) {
     cursor: "pointer",
   };
 
+const mensagem = {
+  color: "#aa3fbf",
+  fontWeight: "bold",
+  margin: "6px 0",
+  border: "1px solid #aa3fbf",
+  backgroundColor: "#f3e6ff",
+  padding: "4px",
+  borderRadius: "6px",
+  textAlign: "center",
+};
+
+
+
   // Estrutura HTML (JSX)
   return (
     <div
@@ -78,6 +97,12 @@ function Card({ heroi, excluirHeroi }) {
       onMouseEnter={() => setSelecionado(true)}
       onMouseLeave={() => setSelecionado(false)}
     >
+      {mensagemNivel && (
+        <p style={mensagem}>
+          {mensagemNivel}
+        </p>
+      )}
+
       <div className="flex justify-center mb-4">
         <StatusBadge tipo={heroi.status} />
       </div>

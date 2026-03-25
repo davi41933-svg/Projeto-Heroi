@@ -1,6 +1,6 @@
 // importa o card e o statusbadge
-import Card from "./components/Card.jsx";
-import StatusBadge from "./components/StatusBadge.jsx";
+import Card from "./components/Card/index.jsx";
+import StatusBadge from "./components/StatusBadge/index.jsx";
 import { useState } from "react";
 
 import Arqueira from "./assets/avatar/arqueira.png";
