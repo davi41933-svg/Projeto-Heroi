@@ -1,12 +1,13 @@
 import StatusBadge from "./StatusBadge.jsx";
 import { useState } from "react";
 
-function Card({ heroi, excluirHeroi }) {
+export default function Card({ heroi, excluirHeroi }) {
   const [xpBlocos, setXpBlocos] = useState(0);
   const [nivel, setNivel] = useState(1);
   const [selecionado, setSelecionado] = useState(false);
   const [border, setBorder] = useState(false);
   const [mensagemNivel, setMensagemNivel] = useState("");
+  const [estilo, setEstilo] = useState("offline");
 
   function ganharXp() {
     setXpBlocos((xpAtual) => {
@@ -17,12 +18,16 @@ function Card({ heroi, excluirHeroi }) {
       if (novoNivel >= 4) setBorder(true);
 
       setMensagemNivel(
-        `Parabéns! ${heroi.nome} subiu para o nível ${novoNivel}!`
+        `Parabéns! ${heroi.nome} subiu para o nível ${novoNivel}!`,
       );
 
       setTimeout(() => setMensagemNivel(""), 3000);
       return 0;
     });
+  }
+
+  function alternarStatus() {
+    setEstilo((s) => (s === "offline" ? "online" : "offline"));
   }
 
   return (
@@ -36,13 +41,13 @@ function Card({ heroi, excluirHeroi }) {
       `}
     >
       {mensagemNivel && (
-        <p className="text-white absolute left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold mb-2 border border-[#f5c542] bg-[#2b3a5f] p-1 rounded">
+        <p className="text-white absolute left-1/2 font-bold mb-2 border border-[#f5c542] bg-[#2b3a5f] p-1 rounded">
           {mensagemNivel}
         </p>
       )}
 
       <div className="flex justify-center mb-3">
-        <StatusBadge tipo={heroi.status} />
+        <StatusBadge tipo={estilo} />
       </div>
 
       <p className="text-white">Nível: {nivel}</p>
@@ -69,27 +74,28 @@ function Card({ heroi, excluirHeroi }) {
       <p className="text-white">Classe: {heroi.classe}</p>
 
       <button
-        onClick={() => alert(`Você recrutou ${heroi.nome} para o seu time!`)}
-        className="w-full mt-2 bg-emerald-600 text-white p-2 rounded-lg"
+        onClick={() => {
+          alternarStatus();
+          alert(`Você recrutou ${heroi.nome} para o seu time!`);
+        }}
+        className={`w-full mt-2 cursor-pointer  bg-emerald-600 text-white p-2 rounded-lg ${estilo === "online" ? "bg-red-700" : "bg-green-600"}`}
       >
-        Recrutar!
+        {estilo === "online" ? "Dispensar" : "Recrutar"}
       </button>
 
       <button
         onClick={() => excluirHeroi(heroi.id)}
-        className="w-full mt-2 bg-red-700 text-white p-2 rounded-lg"
+        className="w-full mt-2 cursor-pointer bg-red-700 text-white p-2 rounded-lg"
       >
         Excluir
       </button>
 
       <button
         onClick={ganharXp}
-        className="w-full mt-2 bg-[#f5c542] text-[#1f2a44] font-bold p-2 rounded-lg"
+        className="w-full mt-2 cursor-pointer bg-[#f5c542] text-[#1f2a44] font-bold p-2 rounded-lg"
       >
         Ganhar XP!
       </button>
     </div>
   );
 }
-
-export default Card;

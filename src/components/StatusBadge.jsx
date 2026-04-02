@@ -1,10 +1,12 @@
 // badge que vai dentro do card de heroi
+
+
 function StatusBadge({ tipo }) {
+    
 
     const estilos = {
         online: "bg-green-500 shadow-green-200",
         offline: "bg-gray-500 shadow-gray-200",
-        ausente: "bg-amber-500 shadow-amber-200"
     };
 
     return (
