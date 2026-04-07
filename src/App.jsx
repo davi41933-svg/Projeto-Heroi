@@ -18,6 +18,7 @@ function App() {
   ]);
 
   const [lista, setLista] = useState(herois);
+  const [mensagemNivel, setMensagemNivel] = useState("");
 
   function excluirHeroi(id) {
     const novoArray = herois.filter((heroi) => heroi.id != id);
@@ -25,8 +26,6 @@ function App() {
     setLista(novoArray);
     alert("Herói removido");
   }
-
-
 
   function filtrarMago() {
     setLista(herois.filter((h) => h.classe == "Mago"));
@@ -49,15 +48,21 @@ function App() {
       <div
         className="h-32 w-full
         border-b-4 border-[#f5c542]
-        flex flex-col items-center justify-center text-white text-center"
+        flex flex-col items-center fixed z-2 top-0 bg-[#1f2a44] justify-center text-white text-center"
       >
         <h1 className="text-4xl font-bold drop-shadow-lg">
           Seleção de Personagem
         </h1>
         <h2 className="text-xl font-semibold drop-shadow">Recrute seu time!</h2>
+
+        {mensagemNivel && (
+          <p className="text-white w-80 p-1.5 absolute font-bold mt-20 border border-[#f5c542] bg-[#2b3a5f] rounded">
+            {mensagemNivel}
+          </p>
+        )}
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-xl mx-auto my-8 px-4">
+      <div className="pt-36 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-xl mx-auto my-8 px-4">
         <button
           onClick={filtrarArqueiro}
           className="bg-[#1f2a44] text-white py-2 rounded-xl border-2 border-[#f5c542] hover:bg-[#2b3a5f] transition"
@@ -89,7 +94,12 @@ function App() {
 
       <div className="flex flex-wrap justify-center gap-4 px-4">
         {lista.map((heroi) => (
-          <Card key={heroi.id} heroi={heroi} excluirHeroi={excluirHeroi} />
+          <Card
+            key={heroi.id}
+            heroi={heroi}
+            excluirHeroi={excluirHeroi}
+            setMensagemNivel={setMensagemNivel}
+          />
         ))}
       </div>
 

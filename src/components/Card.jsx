@@ -1,12 +1,12 @@
 import StatusBadge from "./StatusBadge.jsx";
 import { useState } from "react";
 
-export default function Card({ heroi, excluirHeroi }) {
+export default function Card({ heroi, excluirHeroi, setMensagemNivel }) {
   const [xpBlocos, setXpBlocos] = useState(0);
   const [nivel, setNivel] = useState(1);
   const [selecionado, setSelecionado] = useState(false);
   const [border, setBorder] = useState(false);
-  const [mensagemNivel, setMensagemNivel] = useState("");
+
   const [estilo, setEstilo] = useState("offline");
 
   function ganharXp() {
@@ -27,7 +27,7 @@ export default function Card({ heroi, excluirHeroi }) {
   }
 
   function alternarStatus() {
-    setEstilo((s) => (s === "offline" ? "online" : "offline"));
+    setEstilo((estilo) => (estilo === "offline" ? "online" : "offline"));
   }
 
   return (
@@ -40,12 +40,6 @@ export default function Card({ heroi, excluirHeroi }) {
         ${border ? "border-4 border-[#f5c542]" : "border-4 border-[#f5c542]"}
       `}
     >
-      {mensagemNivel && (
-        <p className="text-white absolute left-1/2 font-bold mb-2 border border-[#f5c542] bg-[#2b3a5f] p-1 rounded">
-          {mensagemNivel}
-        </p>
-      )}
-
       <div className="flex justify-center mb-3">
         <StatusBadge tipo={estilo} />
       </div>
