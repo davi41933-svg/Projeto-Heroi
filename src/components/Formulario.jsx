@@ -32,6 +32,7 @@ export default function Formulario({ herois, setHerois, setLista }) {
     } else {
       setErros({});
 
+      // Adiciona novo espaço no array de herois e recarrega o array
       const novoHeroi = {
         ...formData,
         id: herois.length + 1,

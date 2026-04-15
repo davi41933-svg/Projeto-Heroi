@@ -6,7 +6,6 @@ export default function Card({ heroi, excluirHeroi, setMensagemNivel }) {
   const [nivel, setNivel] = useState(1);
   const [selecionado, setSelecionado] = useState(false);
   const [border, setBorder] = useState(false);
-
   const [estilo, setEstilo] = useState("offline");
 
   function ganharXp() {
